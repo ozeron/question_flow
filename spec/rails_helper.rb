@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f}
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -52,7 +53,17 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.before(:suite) do
-    FactoryGirl.lint
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean_with(:transaction)
+    # DatabaseCleaner.cleaning do
+    #   FactoryGirl.lint
+    # end
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.start
+    example.run
+    DatabaseCleaner.clean
   end
 
   config.infer_spec_type_from_file_location!

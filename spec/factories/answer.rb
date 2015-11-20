@@ -4,5 +4,10 @@ FactoryGirl.define do
     text { Faker::Lorem.paragraph(3, true, 4) }
 
     question
+
+    factory :invalid_answer do
+      title ''
+      text ''
+    end
   end
 end

@@ -8,5 +8,10 @@ FactoryGirl.define do
         create :answer, question: question
       end
     end
+
+    factory :invalid_question do
+      title ''
+      text ''
+    end
   end
 end
